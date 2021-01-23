@@ -10,6 +10,9 @@ const operate = (operatorName, data1, data2) => {
   if (operatorName === '_lte') return data1 <= data2
   if (operatorName === '_gt') return data1 > data2
   if (operatorName === '_gte') return data1 >= data2
+  if (operatorName === '_between') {
+    return data1 > data2[0] && data1 < data2[1]
+  }
   return false
 }
 

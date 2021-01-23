@@ -69,6 +69,7 @@ const typeDefs = gql`
     _gte: Int
     _and: [ProductWhere]
     _or: [ProductWhere]
+    _between: [Int]
   }
 
   input OrderWhere {
@@ -85,6 +86,7 @@ const typeDefs = gql`
     _gte: Int
     _and: [OrderWhere]
     _or: [OrderWhere]
+    _between: [Int]
   }
 
   type Query {

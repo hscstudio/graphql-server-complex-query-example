@@ -97,6 +97,7 @@ Other query:
 - `products(where: { price: { _lte: 2000 } })`
 - `products(where: { _and: [{ price: { _lt: 5000 }}, { stock: { _gte: 10 }}] })`
 - `products(where: { _or: [{ price: { _lt: 5000 }}, { stock: { _gte: 10 }}] })`
+- `products(where: { price: { _between: [2000, 5000] } })`
 
 ### Available Operator
 
@@ -109,6 +110,7 @@ Other query:
 - `_gte`: greather than equal
 - `_and`: and
 - `_or`: or
+- `_between`: between
 
 ## Request Using Other Tools
 
