@@ -124,7 +124,7 @@ Other query:
 
 ### Offset
 
-
+- `products(limit: 2, offset: 1)`
 
 ## Limitation
 
