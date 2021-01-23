@@ -122,6 +122,10 @@ Other query:
 - `products(where: { price: { _between: [2000, 5000] } }, order_by: { id: desc }, limit: 1)`
 - `users(limit: 3 )`
 
+### Offset
+
+
+
 ## Limitation
 
 - Every tabel must have field id as primary key that used to differentiate from other records

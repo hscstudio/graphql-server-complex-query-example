@@ -143,7 +143,10 @@ const argumenter = (args, items) => {
   }
 
   if (args.limit) {
-    results = results.slice(0, args.limit)
+    if (args.offset) {
+      results = results.slice(args.offset).slice(0, args.limit)
+    }
+    else results = results.slice(0, args.limit)
   }
 
   return results
