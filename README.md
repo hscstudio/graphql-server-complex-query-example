@@ -95,6 +95,20 @@ Other query:
 - `users(where: { profile__email: { _eq: "ghi@gmail.com" } })`
 - `users(where: { profile__email: { _like: "gmail" } })`
 - `products(where: { price: { _lte: 2000 } })`
+- `products(where: { _and: [{ price: { _lt: 5000 }}, { stock: { _gte: 10 }}] })`
+- `products(where: { _or: [{ price: { _lt: 5000 }}, { stock: { _gte: 10 }}] })`
+
+### Available Operator
+
+- `_eq`: equal
+- `_in`: in_array
+- `_like`: like
+- `_lt`: lower than
+- `_lte`: lower than equal
+- `_gt`: greather than
+- `_gte`: greather than equal
+- `_and`: and
+- `_or`: or
 
 ## Request Using Other Tools
 

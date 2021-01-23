@@ -16,28 +16,75 @@ const operate = (operatorName, data1, data2) => {
 const where = (results, where, items) => {
   const wheres = JSON.parse(JSON.stringify(where))
   Object.keys(wheres).map(fieldName => {
-    const fieldValue = wheres[fieldName] // id: { _eq: 1 }
-    if (fieldName.indexOf('__')>=0) {
-      const fieldNames = fieldName.split('__')
-      const objectName = fieldNames[0]
-      const pathName = fieldNames[1]
-      Object.keys(fieldValue).map(operatorName => {
-        const value = fieldValue[operatorName] // _eq : 1
-        const result = items.filter(item => {
-          return operate(operatorName, item[objectName][pathName], value)
+    if (['_and', '_or'].indexOf(fieldName)>=0) {
+      const objects = wheres[fieldName]
+      let parts = []
+      Object.keys(objects).map(key => {
+        parts[key] = []
+        const wheres2 = objects[key]
+        // { price: { _gt: 2000 } }
+        Object.keys(wheres2).map((fieldName, index) => {
+          const fieldValue = wheres2[fieldName]
+          if (fieldName.indexOf('__')>=0) {
+            const fieldNames = fieldName.split('__')
+            const objectName = fieldNames[0]
+            const pathName = fieldNames[1]
+            Object.keys(fieldValue).map(operatorName => {
+              const value = fieldValue[operatorName] // _eq : 1
+              const result = items.filter(item => {
+                return operate(operatorName, item[objectName][pathName], value)
+              })
+              result && parts[key].push(...result)
+              return true
+            })
+          } else {
+            Object.keys(fieldValue).map(operatorName => {
+              const value = fieldValue[operatorName] // _eq : 1
+              const result = items.filter(item => {
+                return operate(operatorName, item[fieldName], value)
+              })
+              result && parts[key].push(...result)
+              return true
+            })
+          }
         })
-        result && results.push(...result)
-        return true
       })
+      
+      results = parts.reduce((previous, current) => {
+        if (previous.length > 0) {
+          if (fieldName==='_and') {
+            return current.filter(a => previous.some(b => a.id === b.id)); 
+          } else if (fieldName==='_or') {
+            return current.filter(a => previous.some(b => a.id !== b.id));
+          }
+        } else {
+          return current
+        }
+      }, [])
     } else {
-      Object.keys(fieldValue).map(operatorName => {
-        const value = fieldValue[operatorName] // _eq : 1
-        const result = items.filter(item => {
-          return operate(operatorName, item[fieldName], value)
+      const fieldValue = wheres[fieldName] // id: { _eq: 1 }
+      if (fieldName.indexOf('__')>=0) {
+        const fieldNames = fieldName.split('__')
+        const objectName = fieldNames[0]
+        const pathName = fieldNames[1]
+        Object.keys(fieldValue).map(operatorName => {
+          const value = fieldValue[operatorName] // _eq : 1
+          const result = items.filter(item => {
+            return operate(operatorName, item[objectName][pathName], value)
+          })
+          result && results.push(...result)
+          return true
         })
-        result && results.push(...result)
-        return true
-      })
+      } else {
+        Object.keys(fieldValue).map(operatorName => {
+          const value = fieldValue[operatorName] // _eq : 1
+          const result = items.filter(item => {
+            return operate(operatorName, item[fieldName], value)
+          })
+          result && results.push(...result)
+          return true
+        })
+      }
     }
     return true
   })

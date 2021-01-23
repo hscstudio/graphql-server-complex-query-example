@@ -42,7 +42,7 @@ const typeDefs = gql`
     username: UserWhere
     profile__name: UserWhere
     profile__email: UserWhere
-    status: ProductWhere
+    status: UserWhere
     _eq: IntOrString
     _in: [IntOrString]
     _like: String
@@ -50,6 +50,8 @@ const typeDefs = gql`
     _lte: Int
     _gt: Int
     _gte: Int
+    _and: [UserWhere]
+    _or: [UserWhere]
   }
 
   input ProductWhere {
@@ -65,6 +67,8 @@ const typeDefs = gql`
     _lte: Int
     _gt: Int
     _gte: Int
+    _and: [ProductWhere]
+    _or: [ProductWhere]
   }
 
   input OrderWhere {
@@ -79,6 +83,8 @@ const typeDefs = gql`
     _lte: Int
     _gt: Int
     _gte: Int
+    _and: [OrderWhere]
+    _or: [OrderWhere]
   }
 
   type Query {
