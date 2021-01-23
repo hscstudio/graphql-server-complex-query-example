@@ -126,9 +126,15 @@ Other query:
 
 - `products(limit: 2, offset: 1)`
 
+### Customize Primary Key
+
+Assumption: default field name for primary key is `id`, but You can change it.
+
+- `users(pk: "username")`
+
 ## Limitation
 
-- Every tabel must have field id as primary key that used to differentiate from other records
+- Only support single primary key or not support composite key
 
 ## Request Using Other Tools
 

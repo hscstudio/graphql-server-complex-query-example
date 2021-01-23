@@ -111,8 +111,8 @@ const typeDefs = gql`
   }
 
   type Query {
-    users(where: UserWhere, order_by: UserOrderBy, limit: Int, offset: Int): [User]
-    products(where: ProductWhere, order_by: ProductOrderBy, limit: Int, offset: Int): [Product]
+    users(where: UserWhere, order_by: UserOrderBy, limit: Int, offset: Int, pk: String = "id"): [User]
+    products(where: ProductWhere, order_by: ProductOrderBy, limit: Int, offset: Int, pk: String = "id"): [Product]
     orders(where: OrderWhere): [Order]
     user(id: Int!): User
     product(id: Int!): Product

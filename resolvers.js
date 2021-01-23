@@ -16,7 +16,7 @@ const operate = (operatorName, data1, data2) => {
   return false
 }
 
-const where = (results, where, items) => {
+const where = (results, where, items, pk) => {
   const wheres = JSON.parse(JSON.stringify(where))
   Object.keys(wheres).map(fieldName => {
     if (['_and', '_or'].indexOf(fieldName)>=0) {
@@ -56,9 +56,9 @@ const where = (results, where, items) => {
       results = parts.reduce((previous, current) => {
         if (previous.length > 0) {
           if (fieldName==='_and') {
-            return current.filter(a => previous.some(b => a.id === b.id)); 
+            return current.filter(a => previous.some(b => a[pk] === b[pk])); 
           } else if (fieldName==='_or') {
-            return current.filter(a => previous.some(b => a.id !== b.id));
+            return current.filter(a => previous.some(b => a[pk] !== b[pk]));
           }
         } else {
           return current
@@ -133,7 +133,7 @@ const argumenter = (args, items) => {
   let results = []
 
   if (args.where) {
-    results = where(results, args.where, items)  
+    results = where(results, args.where, items, args.pk)  
   } else {
     results = items
   }
