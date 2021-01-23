@@ -95,3 +95,44 @@ Other query:
 - `users(where: { profile__email: { _eq: "ghi@gmail.com" } })`
 - `users(where: { profile__email: { _like: "gmail" } })`
 - `products(where: { price: { _lte: 2000 } })`
+
+## Request Using Other Tools
+
+### Postman
+
+![](graphql-postman.png)
+
+
+### Javascript Axios
+
+```js
+var axios = require('axios');
+var data = JSON.stringify({
+  query: `{
+  products(where: { price: { _lte: 2000 } }) {
+    id
+    title
+    price
+    status
+  }
+}`,
+  variables: {}
+});
+
+var config = {
+  method: 'post',
+  url: 'http://localhost:4000',
+  headers: { 
+    'Content-Type': 'application/json'
+  },
+  data : data
+};
+
+axios(config)
+.then(function (response) {
+  console.log(JSON.stringify(response.data));
+})
+.catch(function (error) {
+  console.log(error);
+});
+```
