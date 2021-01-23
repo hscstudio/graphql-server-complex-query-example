@@ -132,6 +132,18 @@ Assumption: default field name for primary key is `id`, but You can change it.
 
 - `users(pk: "username")`
 
+## To Do
+
+- [ ] Mutation
+  - [ ] Update
+  - [ ] Create
+  - [ ] Delete
+- [ ] Generator
+- [ ] Authentication
+
+https://blog.logrocket.com/crud-with-node-graphql-react/
+https://developer.okta.com/blog/2019/05/29/build-crud-nodejs-graphql
+
 ## Limitation
 
 - Only support single primary key or not support composite key
