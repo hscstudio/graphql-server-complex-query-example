@@ -94,23 +94,70 @@ const where = (results, where, items) => {
   return results
 }
 
+const sort = (type, a, b) => {
+  if (typeof a === 'number') {
+    if (type==='asc') return a - b
+    else return b - a
+  } else if (typeof a === 'string') {
+    if (type==='asc') return a.localeCompare(b)
+    else {
+      return b.localeCompare(a)
+    }
+  } else {
+    return false
+  }
+}
+
+const orderBy = (results, order_by) => {
+  const orderBys = JSON.parse(JSON.stringify(order_by))
+  Object.keys(orderBys).map(fieldName => {
+    const sortType = orderBys[fieldName]
+    if (fieldName.indexOf('__')>=0) {
+      const fieldNames = fieldName.split('__')
+      const objectName = fieldNames[0]
+      const pathName = fieldNames[1]
+      results = results.sort((a, b) => {
+        return sort(sortType, a[objectName][pathName], b[objectName][pathName])
+      })
+    } else {
+      results = results.sort((a, b) => {
+        return sort(sortType, a[fieldName], b[fieldName])
+      })
+    }
+    return true
+  })
+  return results
+}
+
+const argumenter = (args, items) => {
+  let results = []
+
+  if (args.where) {
+    results = where(results, args.where, items)  
+  } else {
+    results = items
+  }
+
+  if (args.order_by) {
+    results = orderBy(results, args.order_by)
+  }
+
+  if (args.limit) {
+    results = results.slice(0, args.limit)
+  }
+
+  return results
+}
+
 const resolvers = {
   Query: {
     users(parent, args, context, info) {
-      if (args) {
-        if (args.where) {
-          return where([], args.where, users)  
-        }     
-      }
+      if (args) return argumenter(args, users)
       return users
     },
     products(parent, args, context, info) {
-      if (args) {
-        if (args.where) {
-          return where([], args.where, products)  
-        }     
-      }
-      return users
+      if (args) return argumenter(args, products)
+      return products
     },
     user(parent, args, context, info) {
       return users.find(user => user.id === args.id);

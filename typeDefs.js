@@ -3,6 +3,11 @@ const { gql } = require('apollo-server');
 const typeDefs = gql`
   scalar IntOrString
 
+  enum orderBy {
+    asc
+    desc
+  }
+
   type Profile {
     name: String
     email: String
@@ -52,6 +57,15 @@ const typeDefs = gql`
     _gte: Int
     _and: [UserWhere]
     _or: [UserWhere]
+    _between: [Int]
+  }
+
+  input UserOrderBy {
+    id: orderBy
+    username: orderBy
+    profile__name: orderBy
+    profile__email: orderBy
+    status: orderBy
   }
 
   input ProductWhere {
@@ -72,6 +86,13 @@ const typeDefs = gql`
     _between: [Int]
   }
 
+  input ProductOrderBy {
+    id: orderBy
+    title: orderBy
+    price: orderBy
+    stock: orderBy
+  }
+
   input OrderWhere {
     id: OrderWhere
     user_id: OrderWhere
@@ -90,8 +111,8 @@ const typeDefs = gql`
   }
 
   type Query {
-    users(where: UserWhere): [User]
-    products(where: ProductWhere): [Product]
+    users(where: UserWhere, order_by: UserOrderBy, limit: Int): [User]
+    products(where: ProductWhere, order_by: ProductOrderBy, limit: Int): [Product]
     orders(where: OrderWhere): [Order]
     user(id: Int!): User
     product(id: Int!): Product

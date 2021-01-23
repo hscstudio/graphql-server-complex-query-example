@@ -7,7 +7,7 @@ Example GraphQL Server for Complex Query
 Run on terminal
 
 ```sh
-git clone https://github.com/hscstudio/grapql-server-complex-query-example.git
+git clone https://github.com/hscstudio/graphql-server-complex-query-example.git
 cd grapql-server-complex-query-example
 npm install
 npm run dev
@@ -111,6 +111,20 @@ Other query:
 - `_and`: and
 - `_or`: or
 - `_between`: between
+
+### OrderBy
+
+- `products(where: { price: { _between: [2000, 5000] } }, order_by: { id: desc })`
+- `users(order_by: { profile__name: desc })`
+
+### Limit
+
+- `products(where: { price: { _between: [2000, 5000] } }, order_by: { id: desc }, limit: 1)`
+- `users(limit: 3 )`
+
+## Limitation
+
+- Every tabel must have field id as primary key that used to differentiate from other records
 
 ## Request Using Other Tools
 
