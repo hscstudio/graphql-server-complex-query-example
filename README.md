@@ -1,4 +1,4 @@
-# grapql-server-complex-query-example
+# graphql-server-complex-query-example
 
 Example GraphQL Server for Complex Query
 
